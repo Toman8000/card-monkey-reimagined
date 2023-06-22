@@ -1,0 +1,30 @@
+﻿using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Models.Towers.Filters;
+using BTD_Mod_Helper.Api.Towers;
+using BTD_Mod_Helper.Extensions;
+
+namespace CardMonkeyReimagined.Upgrades.BottomPath
+{
+    public class SleightOfHand : ModUpgrade<CardMonkeyReimagined>
+    {
+        public override int Path => BOTTOM;
+        public override int Tier => 2;
+        public override int Cost => 350;
+
+        public override string DisplayName => "Sleight of Hand";
+        public override string Description => "Can attack Camo Bloons";
+
+        public override string Portrait => "CardMonkeyReimagined-Portrait";
+
+        /// <summary>
+        /// Default priority is 0, so this lower priority makes this Upgrade always apply last so that it will catch
+        /// every single FilterInvisibleModel that might've been added.
+        /// </summary>
+        public override int Priority => -1;
+
+        public override void ApplyUpgrade(TowerModel tower)
+        {
+            tower.GetDescendants<FilterInvisibleModel>().ForEach(model => model.isActive = false);
+        }
+    }
+}
